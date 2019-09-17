@@ -17,7 +17,7 @@ class FilterService {
 
   @computed get isCheapest() {
     return this.direction.type === 'cheapest';
-  };
+  }
 
   @computed get isAllTransitionSelected() {
     const names = filterTypes.map(v => v.key).filter(k => k !== 'all');
@@ -30,7 +30,7 @@ class FilterService {
 
   getTransition(name) {
     return name === 'all' ? this.isAllTransitionSelected : this.transition[name];
-  };
+  }
 
   @action toggleTransition(name) {
     if (name === 'all') {

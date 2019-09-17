@@ -1,7 +1,6 @@
-import { observable, action } from 'mobx';
 import fetch from '../utils/fetch';
-import { from, of } from 'rxjs';
-import { retry, map, switchMap, mapTo, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { retry, map, switchMap } from 'rxjs/operators';
 
 const SEARCH_URL = `https://front-test.beta.aviasales.ru/search`;
 const TICKET_URL = `https://front-test.beta.aviasales.ru/tickets`;

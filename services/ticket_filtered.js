@@ -95,6 +95,7 @@ class TicketFilteredService {
       const tickets = await this.ticketService.loadTicketList$.toPromise();
       this.ticketList.replace(tickets);
       this.processTicketList();
+      // eslint-disable-next-line
     } catch (error) {
       throw error;
     } finally {

@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "next": "9.0.5",
@@ -18,5 +20,10 @@
     "next-images": "1.2.0",
     "debounce": "1.2.0",
     "rxjs": "6.5.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-plugin-react": "^7.14.3",
+    "babel-eslint": "10.0.3"
   }
 }
