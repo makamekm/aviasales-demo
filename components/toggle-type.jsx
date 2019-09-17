@@ -71,6 +71,24 @@ const ToggleType = () => {
           cursor: default;
           pointer-events: none;
         }
+
+        @media (max-width: 766px) {
+          .filter-type {
+            flex-direction: column;
+          }
+
+          .filter-type-button:first-child {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 0;
+          }
+  
+          .filter-type-button:last-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+          }
+        }
       `}</style>
     </>
   )
