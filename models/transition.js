@@ -5,18 +5,18 @@ export default [
   },
   {
     name: 'Без пересадок',
-    key: 'none',
+    key: 0,
   },
   {
     name: '1 пересадка',
-    key: '1',
+    key: 1,
   },
   {
     name: '2 пересадки',
-    key: '2',
+    key: 2,
   },
   {
     name: '3 пересадки',
-    key: '3',
+    key: 3,
   },
 ];

@@ -4,6 +4,8 @@ import Panel from '../components/panel'
 import Field from '../components/field'
 import testImg from '../icons/test.svg'
 
+const EmptyElement = () => <>&nbsp;</>;
+
 const Ticket = ({ticket, isLoading}) => {
   return (
     <>
@@ -11,59 +13,40 @@ const Ticket = ({ticket, isLoading}) => {
         <div className="ticket">
           <div className="row">
             <div className={"price" + (isLoading ? ' is-grey' : '')}>
-              13 500 P
+              {ticket.priceFormatted || <EmptyElement/>}
             </div>
             <div className={"image" + (isLoading ? ' is-blur' : '')}>
-              <img src={testImg}/>
+              <img src={ticket.carrier ? `https://pics.avs.io/99/36/${ticket.carrier}.png` : testImg}/>
             </div>
           </div>
           <div className="ticket-list">
-            <div className="row ticket-row">
-              <div>
-                <Field label={"MOW - HKT"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
+            {
+              (ticket.segments || [{}, {}]).map((segment, index) => (
+                <div key={index} className="row ticket-row">
+                  <div>
+                    <Field label={(segment.origin || 'FROM') + " - " + (segment.destination || 'TO')}>
+                      <div className={isLoading ? ' is-grey' : ''}>
+                        {segment.timeStartFormatted} – {segment.timeFinishFormatted}
+                      </div>
+                    </Field>
                   </div>
-                </Field>
-              </div>
-              <div>
-                <Field label={"В пути"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
+                  <div>
+                    <Field label={"В пути"}>
+                      <div className={isLoading ? ' is-grey' : ''}>
+                        {segment.durationFormatted || <EmptyElement/>}
+                      </div>
+                    </Field>
                   </div>
-                </Field>
-              </div>
-              <div>
-                <Field label={"2 пересадки"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
+                  <div>
+                    <Field label={segment.transitionFormatted || <EmptyElement/>}>
+                      <div className={isLoading ? ' is-grey' : ''}>
+                        {(segment.stops && !!segment.stops.length) ? segment.stops.join(', ') : <EmptyElement/>}
+                      </div>
+                    </Field>
                   </div>
-                </Field>
-              </div>
-            </div>
-            <div className="row ticket-row">
-              <div>
-                <Field label={"MOW - HKT"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
-                  </div>
-                </Field>
-              </div>
-              <div>
-                <Field label={"В пути"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
-                  </div>
-                </Field>
-              </div>
-              <div>
-                <Field label={"2 пересадки"}>
-                  <div className={isLoading ? ' is-grey' : ''}>
-                    10:45 – 08:00
-                  </div>
-                </Field>
-              </div>
-            </div>
+                </div>
+              ))
+            }
           </div>
         </div>
       </Panel>

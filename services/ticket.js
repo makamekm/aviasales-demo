@@ -1,69 +1,61 @@
 import { observable, action } from 'mobx';
 import fetch from '../utils/fetch';
+import { from, of } from 'rxjs';
+import { retry, map, switchMap, mapTo, tap } from 'rxjs/operators';
 
 const SEARCH_URL = `https://front-test.beta.aviasales.ru/search`;
 const TICKET_URL = `https://front-test.beta.aviasales.ru/tickets`;
 
 class TicketService {
-  @observable loading = true;
-  @observable searchId = null;
-  @observable ticketList = [];
-
-  constructor() {
-    if (process.browser) {
-      this.loadTicketList();
-    }
-  }
 
   async loadSearchIdRequest() {
     const res = await fetch(SEARCH_URL, {
       method: 'GET',
     });
-    return await res.json();
-  }
-
-  @action async loadSearchId() {
-    const { searchId } = await this.loadSearchIdRequest();
-    this.searchId = searchId;
-    if (this.searchId == null) {
+    const { searchId } = await res.json();
+    if (!searchId) {
       throw new Error(`searchId can't be null`);
     }
+    return searchId;
   }
 
-  @action async checkSearchId() {
-    if (this.searchId == null) {
-      await this.loadSearchId();
-    }
-  }
-
-  async loadTicketListRequest() {
+  async loadTicketBatchRequest(searchId) {
     const res = await fetch(TICKET_URL, {
       method: 'GET',
       queryParams: {
-        searchId: this.searchId,
+        searchId,
       },
     });
     return await res.json();
   }
 
-  @action updateTicketModel({ tickets, stop }) {
-    this.ticketList.replace(tickets);
-    if (stop) {
-      this.searchId = null;
-    }
+  loadTicketBatch$(searchId) {
+    return of(null).pipe(
+      switchMap(async () => await this.loadTicketBatchRequest(searchId)),
+      retry(5),
+    )
   }
 
-  @action async loadTicketList() {
-    this.loading = true;
-    try {
-      await this.checkSearchId();
-      const response = await this.loadTicketListRequest();
-      this.updateTicketModel(response);
-    } catch (error) {
-      throw error;
-    } finally {
-      this.loading = false;
+  async loadTicketBatchList(searchId) {
+    let list = [];
+    let stop = false;
+    while (!stop) {
+      stop = await this.loadTicketBatch$(searchId).pipe(
+        map(({tickets, stop}) => {
+          list = [...list, ...tickets];
+          return stop;
+        }),
+      ).toPromise();
     }
+    return list;
+  }
+
+  get loadTicketList$() {
+    return of(null).pipe(
+      switchMap(async () => await this.loadSearchIdRequest()),
+      retry(3),
+      switchMap(async searchId => await this.loadTicketBatchList(searchId)),
+    );
   }
 }
 

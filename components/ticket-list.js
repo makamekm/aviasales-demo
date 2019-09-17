@@ -1,27 +1,36 @@
 import React from 'react'
 import { useInstance } from 'react-ioc'
 import { observer } from 'mobx-react'
-import TicketService from '../services/ticket'
-import Panel from '../components/panel'
-import Field from '../components/field'
 import TicketListLoading from '../components/ticket-list-loading'
-import testImg from '../icons/test.svg'
 import Ticket from '../components/ticket'
 import TicketFilteredService from '../services/ticket_filtered'
 
 const TicketList = () => {
-  const ticketService = useInstance(TicketService);
   const ticketFilteredService = useInstance(TicketFilteredService);
 
   return (
     <>
       {
-        ticketService.loading
+        ticketFilteredService.loading
           ? <TicketListLoading/>
-          : ticketService.ticketList.map(
-            (ticket, index) => <Ticket key={index} ticket={ticket}/>,
-          )
+          : ticketFilteredService.aggregatedTicketList.length
+            ? ticketFilteredService.aggregatedTicketList.map(
+              (ticket, index) => <Ticket key={index} ticket={ticket}/>,
+            )
+            : <div className="no-ticket-found">
+              Билеты не найдены
+            </div>
       }
+      
+      <style jsx>{`
+        .no-ticket-found {
+          text-transform: uppercase;
+          width: 100%;
+          text-align: center;
+          padding: 20px;
+          font-weight: 600;
+        }
+      `}</style>
     </>
   )
 }
