@@ -22,7 +22,7 @@ const Page = () => (
       </div>
     </Layout>
 
-    <style jsx global>{`
+    <style jsx>{`
       .filter-block {
         width: 232px;
       }

@@ -4,29 +4,7 @@ import { observer } from 'mobx-react'
 import FilterService from '../services/filter'
 import CheckboxOnIcon from '../icons/checkbox-on.svg'
 import CheckboxOffIcon from '../icons/checkbox-off.svg'
-
-const filterTypes = [
-  {
-    name: 'Все',
-    key: 'all',
-  },
-  {
-    name: 'Без пересадок',
-    key: 'none',
-  },
-  {
-    name: '1 пересадка',
-    key: '1',
-  },
-  {
-    name: '2 пересадки',
-    key: '2',
-  },
-  {
-    name: '3 пересадки',
-    key: '3',
-  },
-]
+import filterTypes from '../models/transition'
 
 const Filter = () => {
   const filterService = useInstance(FilterService);
