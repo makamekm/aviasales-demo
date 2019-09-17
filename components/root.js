@@ -9,7 +9,7 @@ const Root = ({children}) => {
     <>
       <Head>
         <title>Aviasales Demo</title>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet"></link>
       </Head>
 
       {children}
@@ -17,7 +17,7 @@ const Root = ({children}) => {
       <style jsx global>{`
         body {
           margin: 0;
-          font-family: Open Sans, -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
           background-color: #F3F7FA;
           color: #4A4A4A;
         }
