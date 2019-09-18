@@ -1,22 +1,8 @@
-import { observable, action, computed } from 'mobx'
-import filterTypes from '../models/transition'
-import { useRouter, Router } from 'next/router'
-
-const setAllTransitionObject = (obj, value = true) => {
-  const names = filterTypes.map(v => v.key).filter(k => k !== 'all');
-  for (const name of names) {
-    obj[name] = value;
-  }
-  return obj;
-}
-
-const setTransitionObject = (obj, values) => {
-  const names = filterTypes.map(v => v.key).filter(k => k !== 'all');
-  for (const name of names) {
-    obj[name] = values.indexOf(name) >= 0 ? true : false;
-  }
-  return obj;
-}
+import { observable, action, computed } from 'mobx';
+import { useRouter, Router } from 'next/router';
+import filterKeys from '../models/filter.transition-key';
+import { getQueryVariables } from '../utils/url';
+import { setAllTransitionObject, setTransitionObject } from '../utils/filter.transition';
 
 class FilterService {
   @observable transition = setAllTransitionObject({}, true);
@@ -29,18 +15,16 @@ class FilterService {
   }
 
   @computed get isAllTransitionSelected() {
-    const names = filterTypes.map(v => v.key).filter(k => k !== 'all');
     let result = true;
-    for (const name of names) {
+    for (const name of filterKeys) {
       result = result && this.transition[name];
     }
     return result;
   }
 
-  router = null
+  router = useRouter()
 
   constructor() {
-    this.router = useRouter();
     this.popRouter(this.router.asPath);
     Router.events.on('routeChangeComplete', (url) => {
       this.popRouter(url);
@@ -48,7 +32,12 @@ class FilterService {
   }
 
   popRouter(url) {
-    const query = this.getQueryVariables(url);
+    const query = getQueryVariables(url);
+    this.popRouterQueryTransition(query);
+    this.popRouterQueryDirection(query);
+  }
+
+  popRouterQueryTransition(query) {
     if (query.transition) {
       try {
         setTransitionObject(this.transition, JSON.parse(query.transition));
@@ -58,21 +47,12 @@ class FilterService {
     } else {
       setAllTransitionObject(this.transition, true);
     }
+  }
+
+  popRouterQueryDirection(query) {
     if (query.direction) {
       this.direction.type = query.direction;
     }
-  }
-
-  getQueryVariables(url) {
-    const query = url.split('?')[1] || '';
-    const couples = query.split('&').filter(s => !!s);
-    let result = {};
-    let pair;
-    for (let couple of couples) {
-      pair = couple.split('=');
-      result[pair[0]] = decodeURIComponent(pair[1]);
-    }
-    return result;
   }
 
   getTransition(name) {
@@ -81,14 +61,33 @@ class FilterService {
 
   pushRouter() {
     const queries = [];
+    this.pushRouterQueryTransition(queries);
+    this.pushRouterQueryDirection(queries);
+    const url = this.getQueryFromQueries(queries);
+    this.changeUrl(url);
+  }
+
+  changeUrl(url) {
+    this.router.push(url, url, { shallow: true });
+  }
+
+  getQueryFromQueries(queries) {
+    return queries.length
+      ? `${window.location.pathname}?${queries.join('&')}`
+      : window.location.pathname;
+  }
+
+  pushRouterQueryTransition(queries) {
     if (!this.isAllTransitionSelected) {
-      const transitionList = filterTypes.map(v => v.key).filter(k => this.transition[k]);
+      const transitionList = filterKeys.filter(k => this.transition[k]);
       queries.push(`transition=${JSON.stringify(transitionList)}`);
     }
+  }
+
+  pushRouterQueryDirection(queries) {
     if (!this.isCheapest) {
       queries.push(`direction=${this.direction.type}`);
     }
-    this.router.push(queries.length ? `${window.location.pathname}?${queries.join('&')}` : window.location.pathname);
   }
 
   @action toggleTransition(name) {
