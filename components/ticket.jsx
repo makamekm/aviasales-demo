@@ -110,7 +110,7 @@ const Ticket = ({ticket, isLoading}) => {
         .is-grey {
           background-color: rgba(0, 0, 0, 0.075);
           border-radius: 5px;
-          opacity:1;
+          opacity: 1;
           animation: flickerAnimation 2s infinite;
           content: '&nbsp;';
           color: transparent;

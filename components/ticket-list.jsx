@@ -17,7 +17,7 @@ const TicketList = () => {
             ? ticketService.aggregatedTicketList.map(
               (ticket, index) => <Ticket key={index} ticket={ticket} isLoading={ticketService.handling}/>,
             )
-            : <div className="no-ticket-found">
+            : <div className={"no-ticket-found" + (ticketService.handling ? ' is-handling' : '')}>
               Билеты не найдены
             </div>
       }
@@ -29,6 +29,19 @@ const TicketList = () => {
           text-align: center;
           padding: 20px;
           font-weight: 600;
+          transform: opacity 0.2s;
+          will-change: opacity;
+        }
+
+        @keyframes flickerAnimation {
+          0%   { opacity: 0.9; }
+          50%  { opacity: 0.1; }
+          100% { opacity: 0.9; }
+        }
+
+        .is-handling {
+          opacity: 0.9;
+          animation: flickerAnimation 2s infinite;
         }
       `}</style>
     </>
