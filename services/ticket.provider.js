@@ -1,6 +1,6 @@
 import fetch from "../utils/fetch";
-import { of, } from "rxjs";
-import { retry, map, switchMap, } from "rxjs/operators";
+import { of } from "rxjs";
+import { retry, map, switchMap } from "rxjs/operators";
 
 const SEARCH_URL = "https://front-test.beta.aviasales.ru/search";
 const TICKET_URL = "https://front-test.beta.aviasales.ru/tickets";
@@ -11,7 +11,7 @@ class TicketProvider {
     const res = await fetch(SEARCH_URL, {
       method: "GET",
     });
-    const { searchId, } = await res.json();
+    const { searchId } = await res.json();
     if (!searchId) {
       throw new Error("searchId can't be null");
     }
@@ -40,8 +40,8 @@ class TicketProvider {
     let stop = false;
     while (!stop) {
       stop = await this.loadTicketBatch$(searchId).pipe(
-        map(({tickets, stop,}) => {
-          list = [...list, ...tickets,];
+        map(({tickets, stop}) => {
+          list = [...list, ...tickets];
           return stop;
         })
       ).toPromise();

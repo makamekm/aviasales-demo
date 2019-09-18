@@ -1,7 +1,7 @@
-import { formatTransition, formatDuration, formatTime, formatPrice, } from "./formatters";
+import { formatTransition, formatDuration, formatTime, formatPrice } from "./formatters";
 import filterKeys from "../models/filter.transition-key";
 
-export function filterTicketList({ list, isAllTransitionSelected, transition, }) {
+export function filterTicketList({ list, isAllTransitionSelected, transition }) {
   return list.filter(ticket => {
     let result = true;
     if (!isAllTransitionSelected) {
@@ -13,7 +13,7 @@ export function filterTicketList({ list, isAllTransitionSelected, transition, })
   });
 }
 
-export function sortTicketList({ list, isCheapest, }) {
+export function sortTicketList({ list, isCheapest }) {
   return list.sort((a, b) => {
     if (isCheapest) {
       return a.price < b.price ? -1 : 1;

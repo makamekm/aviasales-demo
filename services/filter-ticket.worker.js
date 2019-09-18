@@ -1,5 +1,5 @@
 import TicketService from "./ticket.provider";
-import { filterTicketList, sortTicketList, extendTicketList, } from "../utils/filter.ticket";
+import { filterTicketList, sortTicketList, extendTicketList } from "../utils/filter.ticket";
 
 const service = new TicketService();
 
@@ -12,8 +12,8 @@ function processData({
 }) {
   let list = ticketList;
 
-  list = filterTicketList({ list, isAllTransitionSelected, transition, });
-  list = sortTicketList({ list, isCheapest, });
+  list = filterTicketList({ list, isAllTransitionSelected, transition });
+  list = sortTicketList({ list, isCheapest });
   list = extendTicketList(list);
 
   return list.slice(0, 5);

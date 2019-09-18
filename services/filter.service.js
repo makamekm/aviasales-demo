@@ -1,8 +1,8 @@
-import { observable, action, computed, } from "mobx";
-import { useRouter, Router, } from "next/router";
+import { observable, action, computed } from "mobx";
+import { useRouter, Router } from "next/router";
 import filterKeys from "../models/filter.transition-key";
-import { getQueryVariables, } from "../utils/url";
-import { setAllTransitionObject, setTransitionObject, } from "../utils/filter.transition";
+import { getQueryVariables } from "../utils/url";
+import { setAllTransitionObject, setTransitionObject } from "../utils/filter.transition";
 
 class FilterService {
   @observable transition = setAllTransitionObject({}, true);
@@ -68,7 +68,7 @@ class FilterService {
   }
 
   changeUrl(url) {
-    this.router.push(url, url, { shallow: true, });
+    this.router.push(url, url, { shallow: true });
   }
 
   getQueryFromQueries(queries) {

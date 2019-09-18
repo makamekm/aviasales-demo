@@ -26,6 +26,6 @@
         "eol-last": "error",
         "no-tabs": "error",
         "no-trailing-spaces": "error",
-        "comma-dangle": ["error", "always"]
+        "comma-dangle": ["error", "always-multiline"]
     }
 }

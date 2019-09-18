@@ -23,7 +23,7 @@ export const formatTransition = (length) => {
   let result = `${str} пересад`;
   if (
     (length > 10 && length < 20)
-    || [0, 5, 6, 7, 8, 9,].indexOf(lastDig) >= 0
+    || [0, 5, 6, 7, 8, 9].indexOf(lastDig) >= 0
   ) {
     result += "ок";
   } else if (lastDig === 1) {

@@ -1,6 +1,6 @@
-import { observable, observe, action, toJS, } from "mobx";
+import { observable, observe, action, toJS } from "mobx";
 import debounce from "debounce";
-import { Inject, } from "react-ioc";
+import { Inject } from "react-ioc";
 import FilterService from "./filter.service";
 import FilterTicketWorker from "./filter-ticket.worker";
 
