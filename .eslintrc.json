@@ -21,5 +21,11 @@
         "react"
     ],
     "rules": {
+        "quotes": "error",
+        "semi": "error",
+        "eol-last": "error",
+        "no-tabs": "error",
+        "no-trailing-spaces": "error",
+        "comma-dangle": ["error", "always"]
     }
 }

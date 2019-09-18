@@ -1,8 +1,8 @@
-import { observable, observe, action, toJS } from 'mobx';
-import debounce from 'debounce';
-import { Inject } from 'react-ioc';
-import FilterService from './filter.service';
-import FilterTicketWorker from './filter-ticket.worker';
+import { observable, observe, action, toJS, } from "mobx";
+import debounce from "debounce";
+import { Inject, } from "react-ioc";
+import FilterService from "./filter.service";
+import FilterTicketWorker from "./filter-ticket.worker";
 
 class TicketService {
   @observable handling = false;
@@ -17,7 +17,7 @@ class TicketService {
 
     if (process.browser) {
       this.worker = new FilterTicketWorker();
-      this.worker.addEventListener('message', this.onWorkerMessage);
+      this.worker.addEventListener("message", this.onWorkerMessage);
       this.loadTicketList();
     }
   }
@@ -30,7 +30,7 @@ class TicketService {
 
   processTicketList() {
     this.worker.postMessage({
-      type: 'process',
+      type: "process",
       isAllTransitionSelected: this.filterService.isAllTransitionSelected,
       transition: toJS(this.filterService.transition),
       isCheapest: this.filterService.isCheapest,
@@ -49,7 +49,7 @@ class TicketService {
   @action async loadTicketList() {
     this.loading = true;
     this.worker.postMessage({
-      type: 'load',
+      type: "load",
       isAllTransitionSelected: this.filterService.isAllTransitionSelected,
       transition: toJS(this.filterService.transition),
       isCheapest: this.filterService.isCheapest,

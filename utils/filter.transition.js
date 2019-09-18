@@ -1,4 +1,4 @@
-import filterKeys from '../models/filter.transition-key';
+import filterKeys from "../models/filter.transition-key";
 
 export function setAllTransitionObject(obj, value = true) {
   for (const name of filterKeys) {

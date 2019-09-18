@@ -1,26 +1,26 @@
-import fetch from '../utils/fetch';
-import { of } from 'rxjs';
-import { retry, map, switchMap } from 'rxjs/operators';
+import fetch from "../utils/fetch";
+import { of, } from "rxjs";
+import { retry, map, switchMap, } from "rxjs/operators";
 
-const SEARCH_URL = `https://front-test.beta.aviasales.ru/search`;
-const TICKET_URL = `https://front-test.beta.aviasales.ru/tickets`;
+const SEARCH_URL = "https://front-test.beta.aviasales.ru/search";
+const TICKET_URL = "https://front-test.beta.aviasales.ru/tickets";
 
 class TicketProvider {
 
   async loadSearchIdRequest() {
     const res = await fetch(SEARCH_URL, {
-      method: 'GET',
+      method: "GET",
     });
-    const { searchId } = await res.json();
+    const { searchId, } = await res.json();
     if (!searchId) {
-      throw new Error(`searchId can't be null`);
+      throw new Error("searchId can't be null");
     }
     return searchId;
   }
 
   async loadTicketBatchRequest(searchId) {
     const res = await fetch(TICKET_URL, {
-      method: 'GET',
+      method: "GET",
       queryParams: {
         searchId,
       },
@@ -31,8 +31,8 @@ class TicketProvider {
   loadTicketBatch$(searchId) {
     return of(null).pipe(
       switchMap(async () => await this.loadTicketBatchRequest(searchId)),
-      retry(5),
-    )
+      retry(5)
+    );
   }
 
   async loadTicketBatchList(searchId) {
@@ -40,10 +40,10 @@ class TicketProvider {
     let stop = false;
     while (!stop) {
       stop = await this.loadTicketBatch$(searchId).pipe(
-        map(({tickets, stop}) => {
-          list = [...list, ...tickets];
+        map(({tickets, stop,}) => {
+          list = [...list, ...tickets,];
           return stop;
-        }),
+        })
       ).toPromise();
     }
     return list;
@@ -53,7 +53,7 @@ class TicketProvider {
     return of(null).pipe(
       switchMap(async () => await this.loadSearchIdRequest()),
       retry(3),
-      switchMap(async searchId => await this.loadTicketBatchList(searchId)),
+      switchMap(async searchId => await this.loadTicketBatchList(searchId))
     );
   }
 }

@@ -1,17 +1,17 @@
-import { observable, action, computed } from 'mobx';
-import { useRouter, Router } from 'next/router';
-import filterKeys from '../models/filter.transition-key';
-import { getQueryVariables } from '../utils/url';
-import { setAllTransitionObject, setTransitionObject } from '../utils/filter.transition';
+import { observable, action, computed, } from "mobx";
+import { useRouter, Router, } from "next/router";
+import filterKeys from "../models/filter.transition-key";
+import { getQueryVariables, } from "../utils/url";
+import { setAllTransitionObject, setTransitionObject, } from "../utils/filter.transition";
 
 class FilterService {
   @observable transition = setAllTransitionObject({}, true);
   @observable direction = {
-    type: 'cheapest'
+    type: "cheapest",
   };
 
   @computed get isCheapest() {
-    return this.direction.type === 'cheapest';
+    return this.direction.type === "cheapest";
   }
 
   @computed get isAllTransitionSelected() {
@@ -26,7 +26,7 @@ class FilterService {
 
   constructor() {
     this.popRouter(this.router.asPath);
-    Router.events.on('routeChangeComplete', (url) => {
+    Router.events.on("routeChangeComplete", (url) => {
       this.popRouter(url);
     });
   }
@@ -56,7 +56,7 @@ class FilterService {
   }
 
   getTransition(name) {
-    return name === 'all' ? this.isAllTransitionSelected : this.transition[name];
+    return name === "all" ? this.isAllTransitionSelected : this.transition[name];
   }
 
   pushRouter() {
@@ -68,12 +68,12 @@ class FilterService {
   }
 
   changeUrl(url) {
-    this.router.push(url, url, { shallow: true });
+    this.router.push(url, url, { shallow: true, });
   }
 
   getQueryFromQueries(queries) {
     return queries.length
-      ? `${window.location.pathname}?${queries.join('&')}`
+      ? `${window.location.pathname}?${queries.join("&")}`
       : window.location.pathname;
   }
 
@@ -91,7 +91,7 @@ class FilterService {
   }
 
   @action toggleTransition(name) {
-    if (name === 'all') {
+    if (name === "all") {
       setAllTransitionObject(this.transition, !this.isAllTransitionSelected);
     } else {
       this.transition[name] = this.transition[name] ? false : true;
@@ -100,7 +100,7 @@ class FilterService {
   }
 
   @action toggleType() {
-    this.direction.type = this.isCheapest ? 'fastest' : 'cheapest';
+    this.direction.type = this.isCheapest ? "fastest" : "cheapest";
     this.pushRouter();
   }
 }
