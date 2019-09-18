@@ -15,7 +15,7 @@ const TicketList = () => {
           ? <TicketListLoading/>
           : ticketService.aggregatedTicketList.length
             ? ticketService.aggregatedTicketList.map(
-              (ticket, index) => <Ticket key={index} ticket={ticket}/>,
+              (ticket, index) => <Ticket key={index} ticket={ticket} isLoading={ticketService.handling}/>,
             )
             : <div className="no-ticket-found">
               Билеты не найдены

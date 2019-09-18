@@ -37,10 +37,14 @@ class TicketService {
     });
   }
 
+  updateTicketListDebounce = debounce(() => {
+    this.processTicketList();
+  });
+
   updateTicketList = () => {
     this.handling = true;
-    this.processTicketList();
-  }
+    this.updateTicketListDebounce();
+  };
 
   @action async loadTicketList() {
     this.loading = true;
