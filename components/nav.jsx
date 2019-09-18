@@ -1,17 +1,17 @@
 import React from 'react'
 import LogoIcon from '../icons/logo.svg'
-import TicketFilteredService from '../services/ticket_filtered';
+import TicketService from '../services/ticket.service';
 import { useInstance } from 'react-ioc';
 import { observer } from 'mobx-react';
 
 const Nav = () => {
-  const ticketFilteredService = useInstance(TicketFilteredService);
+  const ticketService = useInstance(TicketService);
 
   return (
     <nav>
       <div className="navbar">
         <img src={LogoIcon} className={
-          ticketFilteredService.loading || ticketFilteredService.handling ? 'is-flickering' : ''
+          ticketService.loading || ticketService.handling ? 'is-flickering' : ''
         }/>
       </div>
 

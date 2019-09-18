@@ -5,7 +5,7 @@ import { retry, map, switchMap } from 'rxjs/operators';
 const SEARCH_URL = `https://front-test.beta.aviasales.ru/search`;
 const TICKET_URL = `https://front-test.beta.aviasales.ru/tickets`;
 
-class TicketService {
+class TicketProvider {
 
   async loadSearchIdRequest() {
     const res = await fetch(SEARCH_URL, {
@@ -58,4 +58,4 @@ class TicketService {
   }
 }
 
-export default TicketService;
+export default TicketProvider;

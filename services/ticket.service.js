@@ -1,16 +1,14 @@
 import { observable, observe, action, toJS } from 'mobx';
 import debounce from 'debounce';
 import { Inject } from 'react-ioc';
-import FilterService from './filter';
-import TicketService from './ticket';
+import FilterService from './filter.service';
 import FilterTicketWorker from './filter-ticket.worker';
 
-class TicketFilteredService {
+class TicketService {
   @observable handling = false;
   @observable loading = true;
   @observable aggregatedTicketList = [];
 
-  @Inject(TicketService) ticketService;
   @Inject(FilterService) filterService;
 
   constructor() {
@@ -55,4 +53,4 @@ class TicketFilteredService {
   }
 }
 
-export default TicketFilteredService;
+export default TicketService;

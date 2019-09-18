@@ -1,7 +1,7 @@
 import React from 'react'
 import { useInstance } from 'react-ioc'
 import { observer } from 'mobx-react'
-import FilterService from '../services/filter'
+import FilterService from '../services/filter.service'
 import CheckboxOnIcon from '../icons/checkbox-on.svg'
 import CheckboxOffIcon from '../icons/checkbox-off.svg'
 import filterTypes from '../models/transition'

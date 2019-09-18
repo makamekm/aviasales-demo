@@ -1,6 +1,6 @@
 import { formatTransition, formatDuration, formatTime, formatPrice } from '../utils/formatters';
 import filterTypes from '../models/transition';
-import TicketService from './ticket';
+import TicketService from './ticket.provider';
 
 const service = new TicketService();
 

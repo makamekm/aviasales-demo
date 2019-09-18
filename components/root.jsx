@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 import { provider } from 'react-ioc'
-import FilterService from '../services/filter'
-import TicketService from '../services/ticket'
-import TicketFilteredService from '../services/ticket_filtered'
+import FilterService from '../services/filter.service'
+import TicketProvider from '../services/ticket.service'
+import TicketService from '../services/ticket.service'
 
 const Root = ({children}) => {
   return (
@@ -29,6 +29,6 @@ const Root = ({children}) => {
 
 export default provider(
   FilterService,
+  TicketProvider,
   TicketService,
-  TicketFilteredService,
 )(Root)

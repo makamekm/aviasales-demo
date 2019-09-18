@@ -3,18 +3,18 @@ import { useInstance } from 'react-ioc'
 import { observer } from 'mobx-react'
 import TicketListLoading from '../components/ticket-list-loading'
 import Ticket from '../components/ticket'
-import TicketFilteredService from '../services/ticket_filtered'
+import TicketService from '../services/ticket.service'
 
 const TicketList = () => {
-  const ticketFilteredService = useInstance(TicketFilteredService);
+  const ticketService = useInstance(TicketService);
 
   return (
     <>
       {
-        ticketFilteredService.loading
+        ticketService.loading
           ? <TicketListLoading/>
-          : ticketFilteredService.aggregatedTicketList.length
-            ? ticketFilteredService.aggregatedTicketList.map(
+          : ticketService.aggregatedTicketList.length
+            ? ticketService.aggregatedTicketList.map(
               (ticket, index) => <Ticket key={index} ticket={ticket}/>,
             )
             : <div className="no-ticket-found">
