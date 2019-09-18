@@ -15,6 +15,7 @@ const Layout = ({children}) => (
         display: flex;
         justify-content: space-around;
         flex-direction: row;
+        padding-bottom: 20px;
       }
 
       .layout {
