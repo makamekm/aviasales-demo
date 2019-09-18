@@ -15,7 +15,6 @@ const NoTicketFound = () => {
       <style jsx>{`
         .no-ticket-found {
           text-transform: uppercase;
-          width: 100%;
           text-align: center;
           padding: 20px;
           font-weight: 600;
