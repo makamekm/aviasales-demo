@@ -5,15 +5,15 @@ import FilterService from '../services/filter.service'
 import TicketProvider from '../services/ticket.service'
 import TicketService from '../services/ticket.service'
 
-const Root = ({children}) => {
-  return (
+export default (Page) => {
+  const Root = () => (
     <>
       <Head>
         <title>Aviasales Demo</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet"></link>
       </Head>
 
-      {children}
+      {React.createElement(Page)}
       
       <style jsx global>{`
         body {
@@ -25,10 +25,16 @@ const Root = ({children}) => {
       `}</style>
     </>
   )
-}
 
-export default provider(
-  FilterService,
-  TicketProvider,
-  TicketService,
-)(Root)
+  Root.getInitialProps = async ({ req }) => {
+    return {
+      init: true,
+    };
+  }
+
+  return provider(
+    FilterService,
+    TicketProvider,
+    TicketService,
+  )(Root);
+}

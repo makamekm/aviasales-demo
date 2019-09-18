@@ -1,5 +1,4 @@
 import React from 'react'
-import { provider } from 'react-ioc'
 import Navbar from '../components/nav'
 import Panel from '../components/panel'
 import Layout from '../components/layout'
@@ -9,7 +8,7 @@ import TicketList from '../components/ticket-list'
 import Root from '../components/root'
 
 const Page = () => (
-  <Root>
+  <>
     <Navbar/>
 
     <Layout>
@@ -37,7 +36,7 @@ const Page = () => (
         }
       }
     `}</style>
-  </Root>
+  </>
 );
 
-export default provider()(Page);
+export default Root(Page);
