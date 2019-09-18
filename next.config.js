@@ -1,2 +1,5 @@
-const withImages = require('next-images')
-module.exports = withImages()
+const withImages = require('next-images');
+const withWorkers = require('@zeit/next-workers');
+module.exports = withWorkers(
+  withImages(),
+);

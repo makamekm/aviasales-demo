@@ -10,7 +10,9 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "next": "9.0.5",
+    "next": "9.0.6",
+    "@zeit/next-workers": "1.0.1-canary.1",
+    "worker-loader": "2.0.0",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-ioc": "1.0.0",
