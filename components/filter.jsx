@@ -1,24 +1,29 @@
-import React from 'react'
-import { useInstance } from 'react-ioc'
-import { observer } from 'mobx-react'
-import FilterService from '../services/filter.service'
-import CheckboxOnIcon from '../icons/checkbox-on.svg'
-import CheckboxOffIcon from '../icons/checkbox-off.svg'
-import filterTypes from '../models/filter.transition'
+import React, { useContext } from "react";
+import { useInstance } from "react-ioc";
+import { observer } from "mobx-react";
+import FilterService from "../services/filter.service";
+import CheckboxOnIcon from "../icons/checkbox-on.svg";
+import CheckboxOffIcon from "../icons/checkbox-off.svg";
+import filterTypes from "../models/filter.transition";
+import { QueryParamsContext } from "../utils/query-params-context";
 
 const Filter = () => {
+  const queryParams = useContext(QueryParamsContext);
   const filterService = useInstance(FilterService);
-
+  // не лучший способ устанавливать при работе с IOC параметры, но я не претендую
+  // на хороший дизайн в этом месте ибо я не работал ни разу с React-IOC до этого момента
+  // TODO: Подумать как прокинуть текущие queryParams через конструктор
+  filterService.setQueryParams(queryParams);
   return (
     <div className="filter">
       <div className="title">Количество пересадок</div>
-  
+
       <div className="filter-list">
         {
           filterTypes.map(type => {
             return (
               <div
-                key={type.key}  
+                key={type.key}
                 className="filter-item"
                 onClick={
                   () => filterService.toggleTransition(type.key)
@@ -37,11 +42,11 @@ const Filter = () => {
                   </div>
                 </div>
               </div>
-            )
+            );
           })
         }
       </div>
-      
+
       <style jsx>{`
   
         .title {
@@ -95,7 +100,7 @@ const Filter = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default observer(Filter)
+export default observer(Filter);

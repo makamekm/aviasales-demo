@@ -1,10 +1,21 @@
 import { observable, action, computed } from "mobx";
 import { useRouter, Router } from "next/router";
 import filterKeys from "../models/filter.transition-key";
-import { getQueryVariables } from "../utils/url";
-import { setAllTransitionObject, setTransitionObject } from "../utils/filter.transition";
+import {
+  setAllTransitionObject,
+  setTransitionObject,
+} from "../utils/filter.transition";
 
 class FilterService {
+  queryParams = {};
+
+  setQueryParams(queryParams) {
+    this.queryParams = queryParams;
+  }
+  getQueryVariables() {
+    return this.queryParams;
+  }
+
   @observable transition = setAllTransitionObject({}, true);
   @observable direction = {
     type: "cheapest",
@@ -22,17 +33,17 @@ class FilterService {
     return result;
   }
 
-  router = useRouter()
+  router = useRouter();
 
   constructor() {
-    this.popRouter(this.router.asPath);
-    Router.events.on("routeChangeComplete", (url) => {
-      this.popRouter(url);
+    this.popRouter();
+    Router.events.on("routeChangeComplete", () => {
+      this.popRouter();
     });
   }
 
-  popRouter(url) {
-    const query = getQueryVariables(url);
+  popRouter() {
+    const query = this.getQueryVariables();
     this.popRouterQueryTransition(query);
     this.popRouterQueryDirection(query);
   }
@@ -56,38 +67,31 @@ class FilterService {
   }
 
   getTransition(name) {
-    return name === "all" ? this.isAllTransitionSelected : this.transition[name];
+    return name === "all"
+      ? this.isAllTransitionSelected
+      : this.transition[name];
   }
 
   pushRouter() {
-    const queries = [];
-    this.pushRouterQueryTransition(queries);
-    this.pushRouterQueryDirection(queries);
-    const url = this.getQueryFromQueries(queries);
-    this.changeUrl(url);
+    const direction = this.direction.type;
+    const transition = JSON.stringify(
+      filterKeys.filter(k => this.transition[k])
+    );
+    this.changeUrl({ transition, direction });
   }
 
-  changeUrl(url) {
-    this.router.push(url, url, { shallow: true });
+  changeUrl(query = {}) {
+    this.router.push({
+      pathname: "/",
+      as: "/",
+      query,
+    });
   }
 
   getQueryFromQueries(queries) {
     return queries.length
       ? `${window.location.pathname}?${queries.join("&")}`
       : window.location.pathname;
-  }
-
-  pushRouterQueryTransition(queries) {
-    if (!this.isAllTransitionSelected) {
-      const transitionList = filterKeys.filter(k => this.transition[k]);
-      queries.push(`transition=${JSON.stringify(transitionList)}`);
-    }
-  }
-
-  pushRouterQueryDirection(queries) {
-    if (!this.isCheapest) {
-      queries.push(`direction=${this.direction.type}`);
-    }
   }
 
   @action toggleTransition(name) {

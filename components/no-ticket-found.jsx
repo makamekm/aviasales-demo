@@ -1,17 +1,17 @@
-import React from 'react'
-import { useInstance } from 'react-ioc'
-import { observer } from 'mobx-react'
-import TicketService from '../services/ticket.service'
+import React from "react";
+import { useInstance } from "react-ioc";
+import { observer } from "mobx-react";
+import TicketService from "../services/ticket.service";
 
 const NoTicketFound = () => {
   const ticketService = useInstance(TicketService);
 
   return (
     <>
-      <div className={"no-ticket-found" + (ticketService.handling ? ' is-handling' : '')}>
+      <div className={"no-ticket-found" + (ticketService.handling ? " is-handling" : "")}>
         Билеты не найдены
       </div>
-      
+
       <style jsx>{`
         .no-ticket-found {
           text-transform: uppercase;
@@ -34,7 +34,7 @@ const NoTicketFound = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default observer(NoTicketFound)
+export default observer(NoTicketFound);
